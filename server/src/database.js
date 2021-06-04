@@ -30,7 +30,14 @@ async function load() {
 }
 
 function update(obj) {
-
+    connection.query('UPDATE birthday SET name = ?, birthdate = ?, age = ? WHERE UUID  = ?', [
+        obj.name,
+        obj.nextBirthday,
+        obj.currentAge,
+        obj.ID
+    ], async(error, results, fields) => {
+        if (error) throw error;
+    });
 }
 
 function create(obj) {
@@ -45,10 +52,15 @@ function create(obj) {
     });
 }
 
+function remove(obj) {
+
+}
+
 
 module.exports = {
     connection,
     load,
     update,
     create,
+    remove,
 }

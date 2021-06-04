@@ -63,13 +63,61 @@
                     <th scope="col">Next Birthday</th>
                     <th scope="col">Current Age</th>
                     <th scope="col">Created At</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
         </table>
+
+        <div class="modal" id="editModal">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title">Edit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="container" id="editform">
+                            <fieldset>
+                                <legend>Edit an existing Birthday</legend>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label for="name" class="form-label mt-4">Name</label>
+                                            <input type="text" class="form-control" id="edit-name" name="name" placeholder="Enter name">
+                                        </div>
+                                        <div class="col-2">
+                                            <label for="age" class="form-label mt-4">Current Ange</label>
+                                            <input type="number" class="form-control" id="edit-age" name="age" placeholder="Enter current Age">
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="birthDay" class="form-label mt-4">Next Birthday:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Day</label>
+                                            <input type="number" class="form-control" id="edit-day" name="birthDay" placeholder="Enter next Birthday Day">
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="birthMonth" class="form-label mt-4">&nbsp;&nbsp;Month</label>
+                                            <input type="number" class="form-control" id="edit-month" name="birthMonth" placeholder="Enter next Birthday Month">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-info" id="save">Save Cahnges</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="utils.js"></script>
 <script src="list.js"></script>
 

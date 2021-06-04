@@ -13,16 +13,9 @@ app.use(helmet());
 app.use(express.json());
 
 
-
 const tokens = new Map();
+// tokens.set('00bca6b0-032e-496b-8119-ee04e76e59bf', null);
 let birthdays;
-// const birthdays = [{
-//     ID: 1,
-//     name: 'xxx',
-//     nextBirthday: '04.06.2021',
-//     currentAge: '20',
-//     createdAt: 1622764205149,
-// }];
 
 app.get('/', (req, res) => {
     res.json({
@@ -80,6 +73,58 @@ app.get('/validate/:token', (req, res) => {
     }
 });
 
+function existBirthdayByID(id) {
+    birthdays.forEach(element => {
+        if (element.ID === id) {
+            return true;
+        }
+    });
+}
+
+function getBirthdayByID(id) {
+    var elem;
+    birthdays.forEach((element, index) => {
+        if (element.ID === id) {
+            elem = element;
+            return;
+        }
+    });
+    return elem;
+}
+
+app.post('/editBirthDay/:ID/:token', (req, res) => {
+    const id = req.params.ID;
+    const token = req.params.token;
+    const body = req.body;
+    const now = new Date(Date.now())
+    if (tokens.has(token)) {
+        const obj = jsonSuccess('Valid Token');
+        if (!existBirthdayByID(id)) {
+            if (validBirthDay(req.body)) {
+                const date = new Date(now.getFullYear(), body.birthMonth - 1, body.birthDay);
+                const after = {
+                    name: body.name,
+                    currentAge: body.age,
+                    nextBirthday: date.toLocaleDateString(),
+                }
+                const before = getBirthdayByID(id);
+                before.name = after.name;
+                before.currentAge = after.currentAge;
+                before.nextBirthday = after.nextBirthday;
+                database.update(before)
+                obj.obj = before;
+                res.json(obj);
+            } else {
+                res.json(jsonError('Credentials are missing or Incorrect'))
+            }
+        } else {
+            res.json(jsonError('Birthday ID does not exist!'))
+        }
+    } else {
+        res.json(jsonError('Invalid Token'));
+    }
+});
+
 app.post('/newBirthDay/:token', (req, res) => {
     if (tokens.has(req.params.token)) {
         const obj = jsonSuccess('Valid Token');
@@ -96,6 +141,7 @@ app.post('/newBirthDay/:token', (req, res) => {
             }
             birthdays.push(birthday);
             obj.obj = birthday;
+            database.create(birthday);
             res.json(obj);
         } else {
             res.json(jsonError('Credentials are missing or Incorrect'))
@@ -121,4 +167,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, async() => {
     console.log(`Express App Listening on ${PORT}`);
     birthdays = await database.load();
+    console.log(`Loaded ${birthdays.length} birthday/s from the Database`);
 });
