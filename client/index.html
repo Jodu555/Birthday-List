@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <title>Birthday List</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.html">Birthday List</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <br>
+        <div class="alert alert-danger" id="response">
+        </div>
+        <br>
+        <div class="card text-white bg-secondary">
+            <div class="card-header">Zur Geburtstags Liste Einloggen</div>
+            <div class="card-body">
+                <h5 class="card-title">Hier kannst du dich zu deiner persöhnlichen Geburtstags Liste Einloggen!</h5>
+                <p class="card-text">Damit du keinen Geburtstag mehr vergisst.</p>
+                <form id="form">
+                    <div class="form-group">
+                        <label for="username">Benutzername</label>
+                        <input type="text" class="form-control" id="username" name="username" aria-describedby="username" placeholder="Trage hier deinen Benutzernamen ein!" require>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Passwort</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Trage hier dein Passwort ein!">
+                    </div>
+                    <br>
+                    <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="utils.js"></script>
+<script src="index.js"></script>
+
+<script>
+    const response = document.getElementById('response');
+    const form = document.getElementById('form');
+
+    response.style.display = 'none';
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const obj = {
+            username: data.get('username'),
+            password: data.get('password')
+        };
+        fetch(API_URL + 'auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        }).then((response) => response.json()).then(json => {
+            if (json.success) {
+                setCookie('auth-token', json.token, 10);
+                sendto('list.html');
+            } else {
+                showResponse(json.message, 3000)
+            }
+        });
+    })
+
+    function showResponse(message, timeout) {
+        response.style.display = '';
+        response.innerText = message;
+        setTimeout(() => {
+            hideResponse();
+        }, timeout);
+    }
+
+    function hideResponse() {
+        response.style.display = 'none';
+        response.innerText = '';
+    }
+</script>
+
+</html>

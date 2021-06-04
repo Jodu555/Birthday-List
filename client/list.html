@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/vapor/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://bootswatch.com/5/quartz/bootstrap.min.css"> -->
+    <title>Birthday List</title>
+</head>
+
+<body style="background-image: none">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Birthday List</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+    </nav>
+    <br>
+    <div class="container alert" id="response">
+    </div>
+    <button type="button" class="btn btn-danger" style="margin-left: 1%; margin-bottom: 1%;" id="toggle">Toggle Form</button>
+
+    <form class="container" id="form">
+        <fieldset>
+            <legend>Add a new Birthday</legend>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-3">
+                        <label for="name" class="form-label mt-4">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter name">
+                    </div>
+                    <div class="col-2">
+                        <label for="age" class="form-label mt-4">Current Ange</label>
+                        <input type="number" class="form-control" name="age" placeholder="Enter current Age">
+                    </div>
+                    <div class="col-3">
+                        <label for="birthDay" class="form-label mt-4">Next Birthday:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Day</label>
+                        <input type="number" class="form-control" name="birthDay" placeholder="Enter next Birthday Day">
+                    </div>
+                    <div class="col-3">
+                        <label for="birthMonth" class="form-label mt-4">&nbsp;&nbsp;Month</label>
+                        <input type="number" class="form-control" name="birthMonth" placeholder="Enter next Birthday Month">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-info">Add new Birthday</button>
+        </fieldset>
+    </form>
+    <br>
+
+    <button type="button" class="btn btn-light" style="margin-left: 1%;" id="reload">Reload</button>
+    <div class="container">
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Next Birthday</th>
+                    <th scope="col">Current Age</th>
+                    <th scope="col">Created At</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="utils.js"></script>
+<script src="list.js"></script>
+
+</html>
