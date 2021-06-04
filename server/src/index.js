@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config()
+const database = require('./database.js');
 
 const app = express();
 app.use(cors());
@@ -11,14 +12,17 @@ app.use(morgan('tiny'));
 app.use(helmet());
 app.use(express.json());
 
+
+
 const tokens = new Map();
-const birthdays = [{
-    ID: 1,
-    name: 'xxx',
-    nextBirthday: '04.06.2021',
-    currentAge: '20',
-    createdAt: 1622764205149,
-}];
+let birthdays;
+// const birthdays = [{
+//     ID: 1,
+//     name: 'xxx',
+//     nextBirthday: '04.06.2021',
+//     currentAge: '20',
+//     createdAt: 1622764205149,
+// }];
 
 app.get('/', (req, res) => {
     res.json({
@@ -111,7 +115,10 @@ app.get('/birthdays/:token', (req, res) => {
     }
 });
 
+
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
     console.log(`Express App Listening on ${PORT}`);
+    birthdays = await database.load();
 });
