@@ -38,12 +38,18 @@ editform.addEventListener('submit', (event) => {
         keyboard: false
     })
     myModal.hide()
-
-
 })
 
 function deleteBirthday(id) {
-    console.log(id);
+    const url = `${API_URL}deleteBirthDay/${id}/${getCookie('auth-token')}`
+    fetch(url).then((response) => response.json()).then(json => {
+        if (json.success) {
+            showResponse('Birthday Successfully Deleted', 3000, false)
+            load();
+        } else {
+            showResponse(json.message, 3000, true);
+        }
+    });
 }
 
 function editBirthday(id) {
@@ -182,6 +188,7 @@ function getNearest(list) {
     list.forEach(item => {
         const time = new Date(item.nextBirthday).getTime();
         if (nearest > time) {
+            console.log(item.ID);
             nearest = time;
             nearestID = item.ID;
         }
@@ -191,14 +198,14 @@ function getNearest(list) {
 
 function renderBirthDays(list) {
     birthdays = list;
-    const nearest = getNearest(list);
+    var nearest = getNearest(list);
 
     var ID = 1;
     list.forEach(item => {
         var row;
-        if (ID == nearest) {
+        if (item.ID == nearest) {
             row = table.insertRow(1);
-            row.classList.add('table-secondary');
+            row.classList.add('table-primary');
         } else {
             row = table.insertRow(-1);
         }

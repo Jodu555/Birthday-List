@@ -5,8 +5,13 @@ A Self Hosted Birthday List to view all Birthdays
 
 ### -Server-
 * [x] Add an Route to Edit
-* [ ] Add an Route to Delete
+* [x] Add an Route to Delete
+* [ ] Add that the birthday is ongoing
 
 ### -Client-
 * [x] Add an function to Edit
-* [ ] Add an function to Delete
+* [x] Add an function to Delete
+
+## Stretch
+* [ ] Add an Updated at columen
+* [ ] Add multiple accounts
