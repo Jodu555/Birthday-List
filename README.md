@@ -6,7 +6,7 @@ A Self Hosted Birthday List to view all Birthdays
 ### -Server-
 * [x] Add an Route to Edit
 * [x] Add an Route to Delete
-* [ ] Add that the birthday is ongoing
+* [x] Add that the birthday is ongoing
 
 ### -Client-
 * [x] Add an function to Edit
