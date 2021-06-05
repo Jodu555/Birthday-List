@@ -217,7 +217,7 @@ function renderBirthDays(list) {
         var cellAction = row.insertCell(5);
         cellID.innerHTML = ID;
         cellName.innerHTML = item.name;
-        cellNextBirthday.innerHTML = item.nextBirthday;
+        cellNextBirthday.innerHTML = new Date(item.nextBirthday).toLocaleDateString();
         cellCurrentAge.innerHTML = item.currentAge;
         cellCreatedAt.innerHTML = new Date(item.createdAt).toLocaleDateString();
         cellAction.innerHTML = `<button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editBirthday('${item.ID}')" >Edit</button>

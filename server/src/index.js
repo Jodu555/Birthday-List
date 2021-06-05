@@ -81,7 +81,7 @@ app.post('/editBirthDay/:ID/:token', (req, res) => {
                 const after = {
                     name: body.name,
                     currentAge: body.age,
-                    nextBirthday: date.toLocaleDateString(),
+                    nextBirthday: date.getTime(),
                 }
                 const before = getBirthdayByID(id);
                 before.name = after.name;
@@ -131,7 +131,7 @@ app.post('/newBirthDay/:token', (req, res) => {
                 ID: uuidv4(),
                 name: body.name,
                 currentAge: body.age,
-                nextBirthday: date.toLocaleDateString(),
+                nextBirthday: date.getTime(),
                 createdAt: Date.now(),
             }
             birthdays.push(birthday);
@@ -146,9 +146,31 @@ app.post('/newBirthDay/:token', (req, res) => {
     }
 });
 
+function manageBirthday(birthday) {
+    // const now = new Date(Date.now());
+    // const date = new Date(birthday.nextBirthday);
+    // if (date.getTime() < now.getTime()) {
+    //     const yearDiff = now.getFullYear() - date.getFullYear() || 1;
+    //     date.setFullYear(date.getFullYear() + yearDiff);
+    //     const after = birthday;
+    //     after.currentAge += yearDiff;
+    //     after.nextBirthday = date.getTime();
+    //     database.update(after);
+    //     // console.log(birthday.name, new Date(birthday.nextBirthday).toLocaleDateString(), date.toLocaleDateString(), after.currentAge);
+    //     console.log(`Year differenc detected auto fixing: ${birthday.name}`)
+    //     console.log(`|-> (Differenc: ${yearDiff} updated `);
+    //     console.log(`|-> (from : ${birthday.currentAge}-Age and Birthday: ${new Date(birthday.nextBirthday).toLocaleDateString()})`);
+    //     console.log(`|-> (to : ${after.currentAge}-Age and Birthday: ${date.toLocaleDateString()})`);
+    //     console.log(`|-->> (Fixed!!)`);
+    // }
+}
+
 app.get('/birthdays/:token', (req, res) => {
     if (tokens.has(req.params.token)) {
         const obj = jsonSuccess('Valid Token');
+        birthdays.forEach(element => {
+            manageBirthday(element);
+        });
         obj.birthdays = birthdays;
         res.json(obj);
     } else {
