@@ -1,17 +1,27 @@
 const mysql = require('mysql');
+var connection = null;
 
-var connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-});
-connection.connect();
+function connectSQL() {
+    if (connection != null)
+        connection.end();
+    connection = mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE
+    });
+    connection.connect();
+}
+connectSQL();
+
 
 async function load() {
     return new Promise(async(resolve) => {
         await connection.query('SELECT * FROM birthday', async(error, results, fields) => {
-            if (error) throw error;
+            if (error) {
+                connectSQL();
+                return load();
+            }
             const birthdays = [];
             await results.forEach(element => {
                 const { UUID: ID, name, birthdate: nextBirthday, age: currentAge, created_at: createdAt } = element
@@ -36,7 +46,10 @@ function update(obj) {
         obj.currentAge,
         obj.ID
     ], async(error, results, fields) => {
-        if (error) throw error;
+        if (error) {
+            connectSQL();
+            return update(obj);
+        }
     });
 }
 
@@ -48,7 +61,10 @@ function create(obj) {
         obj.currentAge,
         obj.createdAt
     ], async(error, results, fields) => {
-        if (error) throw error;
+        if (error) {
+            connectSQL();
+            return create(obj);
+        }
     });
 }
 
@@ -57,7 +73,10 @@ function remove(obj) {
     connection.query('DELETE FROM birthday WHERE UUID = ?', [
         obj.ID,
     ], async(error, results, fields) => {
-        if (error) throw error;
+        if (error) {
+            connectSQL();
+            return remove(obj);
+        }
     });
 }
 

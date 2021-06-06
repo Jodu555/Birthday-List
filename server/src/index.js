@@ -18,8 +18,7 @@ const { auth, validate } = require('./authRoutes')(tokens);
 
 
 tokens.set('00bca6b0-032e-496b-8119-ee04e76e59bf', null);
-let birthdays;
-const { validBirthDay, existBirthdayByID, getBirthdayByID, getBirthdayByIDIndex } = require('./birthdayFunctions.js')()
+let birthdays = [];
 
 app.get('/', (req, res) => {
     res.json({
@@ -27,7 +26,43 @@ app.get('/', (req, res) => {
     })
 });
 
+function validBirthDay(obj) {
+    return obj.name && obj.name.trim().length > 0 &&
+        obj.age && obj.age > 0 && obj.age <= 100 &&
+        obj.birthDay && obj.birthDay > 0 && obj.birthDay <= 31 &&
+        obj.birthMonth && obj.birthMonth > 0 && obj.birthMonth <= 12;
+}
 
+function existBirthdayByID(id) {
+    var bool = false;
+    birthdays.forEach(element => {
+        if (element.ID === id) {
+            bool = true;
+        }
+    });
+    return bool;
+}
+
+function getBirthdayByID(id) {
+    var elem;
+    birthdays.forEach((element) => {
+        if (element.ID === id) {
+            elem = element;
+            return;
+        }
+    });
+    return elem;
+}
+
+function getBirthdayByIDIndex(id) {
+    var i;
+    birthdays.forEach((element, index) => {
+        if (element.ID === id) {
+            i = index;
+            return;
+        }
+    });
+}
 
 app.post('/auth', (req, res) => { auth(req, res); });
 app.get('/validate/:token', (req, res) => { validate(req, res); });
