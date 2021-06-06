@@ -34,7 +34,6 @@ function auth(req, res) {
 function validate(req, res) {
     const token = req.params.token;
     if (tokens.has(token)) {
-        console.log(tokens.get(token).expiration, Date.now());
         if (tokens.get(token).expiration > Date.now()) {
             res.json(jsonSuccess('Valid Token'));
         } else {

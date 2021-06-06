@@ -69,7 +69,6 @@ function create(obj) {
 }
 
 function remove(obj) {
-    console.log(obj);
     connection.query('DELETE FROM birthday WHERE UUID = ?', [
         obj.ID,
     ], async(error, results, fields) => {
