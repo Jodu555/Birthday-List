@@ -13,5 +13,6 @@ A Self Hosted Birthday List to view all Birthdays
 * [x] Add an function to Delete
 
 ## Stretch
+* [ ] Maybe add soft delete
 * [ ] Add an Updated at columen
 * [ ] Add multiple accounts
