@@ -188,7 +188,6 @@ function getNearest(list) {
     list.forEach(item => {
         const time = new Date(item.nextBirthday).getTime();
         if (nearest > time) {
-            console.log(item.ID);
             nearest = time;
             nearestID = item.ID;
         }

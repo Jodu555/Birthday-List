@@ -87,6 +87,7 @@ app.post('/editBirthDay/:ID/:token', (req, res) => {
                 before.currentAge = after.currentAge;
                 before.nextBirthday = after.nextBirthday;
                 database.update(before)
+
                 obj.obj = before;
                 res.json(obj);
             } else {
@@ -148,11 +149,12 @@ app.post('/newBirthDay/:token', (req, res) => {
 function manageBirthday(birthday) {
     const now = new Date(Date.now());
     const date = new Date(birthday.nextBirthday);
+
     if (date.getTime() < now.getTime()) {
         const yearDiff = now.getFullYear() - date.getFullYear() || 1;
         date.setFullYear(date.getFullYear() + yearDiff);
         const after = birthday;
-        after.currentAge += yearDiff;
+        after.currentAge += parseInt(yearDiff);
         after.nextBirthday = date.getTime();
         database.update(after);
         console.log(`Year differenc detected auto fixing: ${birthday.name}`)
@@ -183,5 +185,4 @@ app.listen(PORT, async() => {
     console.log(`Express App Listening on ${PORT}`);
     birthdays = await database.load();
     console.log(`Loaded ${birthdays.length} birthday/s from the Database`);
-
 });
