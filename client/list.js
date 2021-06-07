@@ -4,6 +4,7 @@ const editform = document.getElementById('editform');
 const reload = document.getElementById('reload');
 const table = document.getElementById('table');
 const response = document.getElementById('response');
+const logout = document.getElementById('logout');
 
 response.style.display = 'none';
 
@@ -120,6 +121,11 @@ form.addEventListener('submit', (event) => {
 
 })
 
+logout.addEventListener('click', (event) => {
+    deleteCookie('auth-token');
+    sendto('index.html');
+});
+
 toggle.addEventListener('click', (event) => {
     if (form.style.display == 'none') {
         form.style.display = '';
@@ -140,12 +146,12 @@ function proof(params) {
     const url = `${API_URL}validate/${getCookie('auth-token')}`
     fetch(url).then(response => response.json()).then(json => {
         if (!json.success) {
-            setCookie('auth-token', '-1', -1);
+            deleteCookie('auth-token');
             sendto('index.html');
         }
     }).catch(error => {
         console.error(error);
-        setCookie('auth-token', '-1', -1);
+        deleteCookie('auth-token');
         sendto('index.html');
     });
 
@@ -153,6 +159,7 @@ function proof(params) {
         sendto('index.html');
     }
 }
+
 
 load();
 

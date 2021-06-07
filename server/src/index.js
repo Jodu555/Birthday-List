@@ -15,10 +15,12 @@ app.use(express.json());
 
 const tokens = new Map();
 const { auth, validate } = require('./authRoutes')(tokens);
-
-
-tokens.set('00bca6b0-032e-496b-8119-ee04e76e59bf', null);
 let birthdays = [];
+
+
+// Dev Token to test some stuff :^)
+// tokens.set('00bca6b0-032e-496b-8119-ee04e76e59bf', { expiration: Infinity, });
+
 
 app.get('/', (req, res) => {
     res.json({
@@ -153,14 +155,16 @@ function manageBirthday(birthday) {
     if (date.getTime() < now.getTime()) {
         const yearDiff = now.getFullYear() - date.getFullYear() || 1;
         date.setFullYear(date.getFullYear() + yearDiff);
-        const after = birthday;
-        after.currentAge += parseInt(yearDiff);
-        after.nextBirthday = date.getTime();
-        database.update(after);
+
         console.log(`Year differenc detected auto fixing: ${birthday.name}`)
         console.log(`|-> (Differenc: ${yearDiff} updated `);
         console.log(`|-> (from : ${birthday.currentAge}-Age and Birthday: ${new Date(birthday.nextBirthday).toLocaleDateString()})`);
-        console.log(`|-> (to : ${after.currentAge}-Age and Birthday: ${date.toLocaleDateString()})`);
+
+        birthday.currentAge + parseInt(yearDiff);
+        birthday.nextBirthday = date.getTime();
+        database.update(birthday);
+
+        console.log(`|-> (to : ${birthday.currentAge}-Age and Birthday: ${date.toLocaleDateString()})`);
         console.log(`|-->> (Fixed!!)`);
     }
 }

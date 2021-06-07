@@ -23,6 +23,10 @@ function getCookie(cname) {
     return "";
 }
 
+function deleteCookie(cname) {
+    setCookie(cname, -1, -1);
+}
+
 function sendto(url) {
     window.location = url;
 }
